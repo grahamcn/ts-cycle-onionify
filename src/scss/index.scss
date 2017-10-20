@@ -1,0 +1,6 @@
+$primary-color: red;
+$margin: 16px;
+
+body {
+  color: darken($primary-color, 10%);
+}
