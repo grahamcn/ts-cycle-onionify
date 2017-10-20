@@ -1,3 +1,5 @@
+// https://stanko.github.io/webpack-babel-react-revisited/
+
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
@@ -11,7 +13,7 @@ const paths = {
 
 const extractSass = new ExtractTextPlugin({
   filename: "styles.css",
-  disable: false //process.env.NODE_ENV === "development"
+  disable: process.env.NODE_ENV === "development"
 });
 
 module.exports = {
@@ -39,7 +41,6 @@ module.exports = {
           'ts-loader',
         ],
       },
-      // CSS loader to CSS files -> ADDED IN THIS STEP
       // Files will get handled by css loader and then passed to the extract text plugin
       // which will write it to the file we defined above
       {
