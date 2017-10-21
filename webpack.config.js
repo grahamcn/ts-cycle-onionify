@@ -54,7 +54,31 @@ module.exports = {
             // use style-loader in development
             fallback: "style-loader"
         }),
-      }
+      },
+      {
+        test: /\.(png|jpg|gif)$/,
+        use: [
+          'file-loader',
+          `image-webpack-loader?{
+            optipng: {
+              optimizationLevel: 7,
+            },
+            gifsicle: {
+              interlaced: false,
+            },
+            pngquant:{
+              quality: "1-100",
+              speed: 4,
+            },
+            mozjpeg: {
+              quality: 65
+            },
+            webp: {
+              quality: 75
+            }
+          }`,
+        ],
+      },
     ],
   },
   // use our "src" folder as a starting point - unrequired at present as HtmlWebpackPlugin
