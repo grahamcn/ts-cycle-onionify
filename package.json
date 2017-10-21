@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "scripts": {
     "build": "webpack",
-    "prod": "webpack-dev-server",
+		"prod": "webpack-dev-server",
+		"tslint": "tslint -c ./tslint.json './src/**/*.ts'",
     "dev": "NODE_ENV=\"development\" webpack-dev-server"
   },
   "devDependencies": {
@@ -20,6 +21,7 @@
     "sass-loader": "^6.0.6",
     "style-loader": "^0.19.0",
     "ts-loader": "^3.0.5",
+    "tslint": "^5.8.0",
     "typescript": "^2.5.3",
     "uglifyjs-webpack-plugin": "^1.0.0-beta.3",
     "webpack": "^3.8.1",

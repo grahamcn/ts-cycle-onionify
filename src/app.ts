@@ -1,27 +1,27 @@
 import xs from 'xstream'
-import {run} from '@cycle/run'
-import {makeDOMDriver, h3, img, div} from '@cycle/dom'
+import { run } from '@cycle/run'
+import { makeDOMDriver, h3, img, div } from '@cycle/dom'
 import './scss/index.scss'
-import * as logoImage from'./assets/logo.png'
+import * as logoImage from './assets/logo.png'
 
 const formatSeconds = (value: number): string => `seconds elapsed: ${value} `
 
 function main() {
-  const sinks = {
-    DOM: xs.periodic(1000)
-          .map(i =>
-            div([
-              h3(formatSeconds(i)),
-              img({attrs: {src: logoImage}})
-            ])
-          )
-  };
+	const sinks = {
+		DOM: xs.periodic(1000)
+			.map(i =>
+				div([
+					h3(formatSeconds(i)),
+					img({ attrs: { src: logoImage } })
+				])
+			)
+	}
 
-  return sinks;
+	return sinks
 }
 
 const drivers = {
-  DOM: makeDOMDriver('#app')
-};
+	DOM: makeDOMDriver('#app')
+}
 
-run(main, drivers);
+run(main, drivers)

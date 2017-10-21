@@ -6,7 +6,7 @@
         "targets": {
           "browsers": [
             "last 2 versions",
-            "safari >= 7"
+            "safari >= 10"
           ]
         }
       }
