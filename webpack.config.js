@@ -4,6 +4,7 @@ const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const webpack = require('webpack')
 
 const paths = {
   DIST: path.resolve(__dirname, 'dist'),
@@ -27,7 +28,9 @@ module.exports = {
       template: path.join(paths.SRC, 'index.html'),
     }),
     extractSass,
-    new UglifyJSPlugin(),
+		//new UglifyJSPlugin(),
+		new webpack.NamedModulesPlugin(),
+		new webpack.HotModuleReplacementPlugin(),
   ],
   // We are telling webpack to use "ts-loader", "babel-loader" for .js and .ts files
   // babel will do es6 => es5, ts-loader will first transpile typescript to es6 (tsconfig setting)
@@ -84,7 +87,8 @@ module.exports = {
   // use our "src" folder as a starting point - unrequired at present as HtmlWebpackPlugin
   // handles this
   devServer: {
-    contentBase: paths.SRC,
+		contentBase: paths.SRC,
+		hot: true,
   },
   // Enable importing JS files without specifying their extenstion
   // So we can write:
