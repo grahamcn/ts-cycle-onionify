@@ -22,7 +22,8 @@ module.exports = {
   output: {
     path: paths.DIST,
     filename: 'app.bundle.js',
-  },
+	},
+	devtool: 'inline-source-map', // on, irrespective of node env at present.
   plugins: [
     new HtmlWebpackPlugin({
       template: path.join(paths.SRC, 'index.html'),
