@@ -1,2 +1,2 @@
 # ts-cycle-starter
-Typescript Cycle.js bet catalog prototype
+Typescript Cycle.js starter application
