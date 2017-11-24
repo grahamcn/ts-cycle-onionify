@@ -6,6 +6,8 @@ const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const webpack = require('webpack')
 
+const isDevelopment = process.env.NODE_ENV === "development"
+
 const paths = {
   DIST: path.resolve(__dirname, 'dist'),
   SRC: path.resolve(__dirname, 'src'),
@@ -14,8 +16,12 @@ const paths = {
 
 const extractSass = new ExtractTextPlugin({
   filename: "styles.css",
-  disable: process.env.NODE_ENV === "development"
+  disable: isDevelopment,
 });
+
+const envPlugins = isDevelopment ? [] :
+	// production plugins:
+	[new UglifyJSPlugin()]
 
 module.exports = {
   entry: path.join(paths.JS, 'app.ts'),
@@ -28,11 +34,10 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: path.join(paths.SRC, 'index.html'),
     }),
-    extractSass,
-		//new UglifyJSPlugin(),
+		extractSass,
 		new webpack.NamedModulesPlugin(),
 		new webpack.HotModuleReplacementPlugin(),
-  ],
+  ].concat([...envPlugins]),
   // We are telling webpack to use "ts-loader", "babel-loader" for .js and .ts files
   // babel will do es6 => es5, ts-loader will first transpile typescript to es6 (tsconfig setting)
   module: {

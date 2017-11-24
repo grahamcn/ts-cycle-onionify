@@ -9,9 +9,10 @@ const formatSeconds = (value: number): string => `seconds elapsed: ${value} `
 function main() {
 	const sinks = {
 		DOM: xs.periodic(1000)
+			.startWith(-1)
 			.map(i =>
 				div([
-					h3(formatSeconds(i)),
+					h3(formatSeconds(i + 1)),
 					img({ attrs: { src: logoImage } })
 				])
 			)
