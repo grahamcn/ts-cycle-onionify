@@ -24,7 +24,7 @@ const envPlugins = isDevelopment ? [] :
 	[new UglifyJSPlugin()]
 
 module.exports = {
-  entry: path.join(paths.JS, 'app.ts'),
+  entry: path.join(paths.JS, './ts/app.ts'),
   output: {
     path: paths.DIST,
     filename: 'app.bundle.js',
