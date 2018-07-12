@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "scripts": {
     "build": "webpack",
-		"prod": "webpack-dev-server",
-		"tslint": "tslint -c ./tslint.json './src/**/*.ts'",
+    "prod": "webpack-dev-server",
+    "tslint": "tslint -c ./tslint.json './src/**/*.ts'",
     "dev": "NODE_ENV=\"development\" webpack-dev-server"
   },
   "devDependencies": {
@@ -28,8 +28,8 @@
     "webpack-dev-server": "^2.9.3"
   },
   "dependencies": {
-    "@cycle/dom": "^19.0.0",
-    "@cycle/run": "^3.3.0",
-    "xstream": "^11.0.0"
+    "@cycle/dom": "^20.4.0",
+    "@cycle/run": "^4.4.0",
+    "xstream": "^11.7.0"
   }
 }
