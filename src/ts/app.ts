@@ -4,7 +4,7 @@ import { makeDOMDriver, h3, img, div } from '@cycle/dom'
 import '../scss/index.scss'
 import * as logoImage from '../assets/logo.png'
 
-const formatSeconds = (value: number): string => `seconds elapsed: ${value} `
+const formatSeconds = (value: number): string => `seconds elapsed...: ${value} `
 
 function main() {
 	const sinks = {
