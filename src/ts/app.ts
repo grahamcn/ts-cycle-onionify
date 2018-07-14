@@ -7,9 +7,12 @@ import onionify from 'cycle-onionify'
 function main(sources) {
 	const state$ = sources.onion.state$
 
-	const initialReducer$ = xs.of(function initialReducer() { return 0 })
-	const addOneReducer$ = xs.periodic(1000)
-		.mapTo(function addOneReducer(prev) { return prev + 1 })
+	const initialReducer$ =
+		xs.of(function initialReducer() { return 0 })
+
+	const addOneReducer$ =
+		xs.periodic(1000)
+			.mapTo(function addOneReducer(prev) { return prev + 1 })
 
 	const reducer$ = xs.merge(initialReducer$, addOneReducer$)
 
