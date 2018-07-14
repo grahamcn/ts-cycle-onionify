@@ -1,28 +1,36 @@
 import xs from 'xstream'
 import { run } from '@cycle/run'
-import { makeDOMDriver, h3, img, div } from '@cycle/dom'
+import { makeDOMDriver, div, p, h2 } from '@cycle/dom'
 import '../scss/index.scss'
-import * as logoImage from '../assets/logo.png'
+import onionify from 'cycle-onionify'
 
-const formatSeconds = (value: number): string => `seconds elapsed...: ${value} `
+function main(sources) {
+	const state$ = sources.onion.state$
 
-function main() {
-	const sinks = {
-		DOM: xs.periodic(1000)
-			.startWith(-1)
-			.map(i =>
-				div([
-					h3(formatSeconds(i + 1)),
-					img({ attrs: { src: logoImage } })
-				])
-			)
+	const initialReducer$ = xs.of(function initialReducer() { return 0 })
+	const addOneReducer$ = xs.periodic(1000)
+		.mapTo(function addOneReducer(prev) { return prev + 1 })
+
+	const reducer$ = xs.merge(initialReducer$, addOneReducer$)
+
+	const vdom$ =
+		state$.map(state =>
+			div([
+				h2('App Level State'),
+				p(JSON.stringify(state)),
+			])
+		)
+
+	return {
+		DOM: vdom$,
+		onion: reducer$,
 	}
-
-	return sinks
 }
+
+const wrappedMain = onionify(main)
 
 const drivers = {
 	DOM: makeDOMDriver('#app')
 }
 
-run(main, drivers)
+run(wrappedMain, drivers)
