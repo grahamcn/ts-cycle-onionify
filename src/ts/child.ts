@@ -5,8 +5,14 @@ function Child(sources): any {
 	const state$ = sources.onion.state$
 
 	const defaultReducer$ = xs.of(function defaultReducer(prevState) {
-		// Parent didn't provide state for the child, so initialize it, or use the state given from the parent.
-		return (typeof prevState === 'undefined') ? 0 : prevState
+		// Parent didn't provide state for the child, so initialize it.
+		if (typeof prevState === 'undefined') {
+			return {
+				count: 0
+			}
+		} else {
+			return prevState // Let's just use the state given from the parent.
+		}
 	})
 
 	// this reducer acts upon the 'child' piece of state, as the Child component
@@ -18,7 +24,11 @@ function Child(sources): any {
 		sources.DOM
 			.select('.increment')
 			.events('click')
-			.mapTo(function incrementReducer(prev) { return prev + 1 })
+			.mapTo(function incrementReducer(prev) {
+				return {
+					count: prev.count + 1
+				}
+			})
 
 	const reducer$ = xs.merge(defaultReducer$, incrementReducer$)
 
@@ -26,7 +36,7 @@ function Child(sources): any {
 		state$.map(state =>
 			div([
 				div([
-					h3('Child Level State'),
+					h3('Child Instance State'),
 					p(JSON.stringify(state)),
 				]),
 				button('.increment', {

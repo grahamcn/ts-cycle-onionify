@@ -1,4 +1,10 @@
 # ts-cycle-starter
-Typescript Cycle.js starter application
+Cycle.js Onionify examples
 
-Nested Components example
+v1.0 Quick example
+
+v1.1 Nested components example - primitive state
+
+v1.2 Nested component exmaple - object state
+
+v1.3 Dynamic list of nested components
