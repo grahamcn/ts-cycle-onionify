@@ -1,5 +1,8 @@
-# ts-cycle-starter
+# ts-cycle-onionify
+
 Cycle.js Onionify examples
+
+Tags
 
 v1.0 Quick example
 

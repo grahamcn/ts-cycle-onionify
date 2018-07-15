@@ -1,39 +1,31 @@
 import xs from 'xstream'
 import { run } from '@cycle/run'
 import isolate from '@cycle/isolate'
-import onionify from 'cycle-onionify'
-import { makeDOMDriver, div, p, h2 } from '@cycle/dom'
+import onionify, { makeCollection } from 'cycle-onionify'
+import { makeDOMDriver, div, p, h2, ul, VNode } from '@cycle/dom'
 import '../scss/index.scss'
 import Child from './child'
 
 function main(sources): any {
 	const state$ = sources.onion.state$
 
-	// 'child'
-	// The property child will host the state for the child component. The parent component
-	// needs to isolate the child component under the scope 'child'
-	const childSinks = isolate(Child, 'child')(sources)
-
 	const initialReducer$ =
 		xs.of(function initialReducer() {
-			return {
-				elapsed: 0,
-			}
+			return []
 		})
 
-	const addOneReducer$ =
+	const addOneItemReducer$ =
 		xs.periodic(1000)
-			.mapTo(function addOneReducer(prev) {
-				return Object.assign({}, {...prev}, {
-					elapsed: prev.elapsed + 1,
-				})
-			})
+			.map(i =>
+				function addOneItemReducer(prev) {
+					return [...prev, {
+						id: i,
+						count: i,
+					}]
+				}
+			)
 
-	const parentReducer$ = xs.merge(initialReducer$, addOneReducer$)
-	const childReducer$ = childSinks.onion
-	const reducer$ = xs.merge(parentReducer$, childReducer$)
-
-	const parentDOM$ =
+	const parentDOM$: xs<VNode> =
 		state$.map(state =>
 			div([
 				h2('App Level State'),
@@ -41,14 +33,37 @@ function main(sources): any {
 			])
 		)
 
+	const List = makeCollection({
+		item: Child,
+		itemKey: (item: any) => item.id,
+		itemScope: key => key,
+		collectSinks: instances => {
+			return {
+				onion: instances.pickMerge('onion'),
+				DOM: instances.pickCombine('DOM')
+					.map(itemVNodes => {
+						return itemVNodes
+					})
+			}
+		}
+	})
+
+	const listSinks = List(sources)
+
+	// just to show the type, asssign to a typed const
+	const listSinksDOM: xs<Array<VNode>> = listSinks.DOM
+
+	const parentReducer$ = xs.merge(initialReducer$, addOneItemReducer$)
+	const reducer$ = xs.merge(parentReducer$, listSinks.onion)
+
 	const vdom$ =
 		xs.combine(
-			parentDOM$,
-			childSinks.DOM
-		).map(([parentDOM, childDom]) =>
+			parentDOM$, // xs<VNode>
+			listSinksDOM, // xs<Array<VNode>>
+		).map(([parentDOM, childDom]: any) =>
 			div([
 				parentDOM,
-				childDom,
+				ul([...childDom]), // Array<VNode>
 			])
 		)
 
