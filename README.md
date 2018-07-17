@@ -9,6 +9,9 @@ https://github.com/staltz/cycle-onionify
 ```
 npm i
 npm run dev
+
+# view tag v1.2
+git checkout v1.2
 ```
 
 # Tags
