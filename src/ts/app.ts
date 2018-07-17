@@ -79,11 +79,10 @@ function main(sources: Sources): Sinks {
 		set: (state, childState) => ({ ...state, bar: childState.val, status: childState.status })
 	}
 
-	// wrong type of state at the moment.
-	const fooSinks: any = isolate(FooBar, { onion: fooLens })(sources)
-	const barSinks: any = isolate(FooBar, { onion: barLens })(sources)
-	const fooOnion: Stream<Reducer<State>> = fooSinks.onion
-	const barOnion: Stream<Reducer<State>> = barSinks.onion
+	const fooSinks = isolate(FooBar, { onion: fooLens })(sources)
+	const barSinks = isolate(FooBar, { onion: barLens })(sources)
+	const fooOnion$: Stream<Reducer<State>> = fooSinks.onion
+	const barOnion$: Stream<Reducer<State>> = barSinks.onion
 
 	const List: any = makeCollection({
 		item: Child,
@@ -101,31 +100,31 @@ function main(sources: Sources): Sinks {
 	const listSinks = isolate(List, 'list')(sources)
 
 	// just to show the type, asssign to a typed const
-	const listSinksDOM: xs<Array<VNode>> = listSinks.DOM
-	const linkOnion: Stream<Reducer<any>> = listSinks.onion
+	const listSinksDOM$: xs<Array<VNode>> = listSinks.DOM
+	const linkOnion$: Stream<Reducer<any>> = listSinks.onion
 
 	const parentReducer$: Stream<Reducer<State>> = xs.merge(initialReducer$, addOneItemReducer$)
 	const reducer$: Stream<Reducer<State>> =
 		xs.merge(
 			parentReducer$,
-			linkOnion,
-			fooOnion,
-			barOnion,
+			linkOnion$,
+			fooOnion$,
+			barOnion$,
 		)
 
 	const vdom$ =
 		xs.combine(
 			parentDOM$, // xs<VNode>
-			listSinksDOM, // xs<Array<VNode>>
+			listSinksDOM$, // xs<Array<VNode>>
 			fooSinks.DOM,
 			barSinks.DOM,
 			child2Sinks.DOM,
-		).map(([parentDOM, childDOM, fooDOM, barDOM, child2DOM]: any) =>
+		).map(([parentDOM, listSinksDOM, fooDOM, barDOM, child2DOM]: any) =>
 			div([
 				parentDOM,
 				child2DOM,
 				ul([fooDOM, barDOM]),
-				ul([...childDOM]), // Array<VNode>,
+				ul([...listSinksDOM]), // Array<VNode>,
 			])
 		)
 
