@@ -1,15 +1,27 @@
 # ts-cycle-onionify
 
 Cycle.js Onionify examples
+https://github.com/staltz/cycle-onionify
 
-Tags
+```
+npm i
+npm run dev
+```
 
-v1.0 Quick example
+# Tags
 
-v1.1 Nested components example - primitive state
+- v1.0
+  - Quick example
 
-v1.2 Nested component exmaple - object state
+- v1.1
+  - Nested components example - primitive state
 
-v1.3 Dynamic list of nested components
+ - v1.2
+   - Nested component example - object state
 
-v1.4 How to share data among components, or compute derived data
+ - v1.3
+   - Dynamic list of nested components
+
+ - v1.4
+   -	How to share data among components, or compute derived data
+	 - Types
