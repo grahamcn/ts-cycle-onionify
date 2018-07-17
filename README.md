@@ -1,6 +1,8 @@
 # ts-cycle-onionify
 
-Cycle.js Onionify application example
+Cycle.js Onionify application example.
+
+Based on the Cycle.js onionify examples:
 
 https://github.com/staltz/cycle-onionify
 
