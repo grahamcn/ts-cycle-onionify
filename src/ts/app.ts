@@ -76,12 +76,14 @@ function main(sources: Sources): Sinks {
 
 	const barLens = { //    { val: 8, status: 'ready' }
 		get: state => ({ val: state.bar, status: state.status }),
-		set: (state, childState): any => ({ ...state, bar: childState.val, status: childState.status })
+		set: (state, childState) => ({ ...state, bar: childState.val, status: childState.status })
 	}
 
 	// wrong type of state at the moment.
 	const fooSinks: any = isolate(FooBar, { onion: fooLens })(sources)
 	const barSinks: any = isolate(FooBar, { onion: barLens })(sources)
+	const fooOnion: Stream<Reducer<State>> = fooSinks.onion
+	const barOnion: Stream<Reducer<State>> = barSinks.onion
 
 	const List: any = makeCollection({
 		item: Child,
@@ -100,14 +102,15 @@ function main(sources: Sources): Sinks {
 
 	// just to show the type, asssign to a typed const
 	const listSinksDOM: xs<Array<VNode>> = listSinks.DOM
+	const linkOnion: Stream<Reducer<any>> = listSinks.onion
 
 	const parentReducer$: Stream<Reducer<State>> = xs.merge(initialReducer$, addOneItemReducer$)
 	const reducer$: Stream<Reducer<State>> =
 		xs.merge(
 			parentReducer$,
-			// listSinks.onion,
-			// fooSinks.onion,
-			// barSinks.onion,
+			linkOnion,
+			fooOnion,
+			barOnion,
 		)
 
 	const vdom$ =

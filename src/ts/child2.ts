@@ -24,7 +24,7 @@ function Child2(sources: Sources): Sinks {
 			itemCount: state.list.length,
 			averageCount: state.list.reduce((a, b) => a + b.count, 0) / state.list.length
 		}),
-		set: (state, childState) => state // ignore updates for now (also, this then does not create a property on the top level state atom, state is local)
+		set: (state, childState) => state // ignore updates for now (also, this then does not create a property on the top level state atom: state is local)
 	}
 
 	const child3Sinks = isolate(Child3, { onion: derivedItemDataLens })(sources)
