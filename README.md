@@ -13,5 +13,3 @@ v1.2 Nested component exmaple - object state
 v1.3 Dynamic list of nested components
 
 v1.4 How to share data among components, or compute derived data
-
-	--- need to add shared data example
