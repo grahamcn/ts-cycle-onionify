@@ -1,5 +1,19 @@
-import xs from 'xstream'
-import { button, li, h3, p } from '@cycle/dom'
+import xs, { Stream } from 'xstream'
+import { button, li, h3, p, DOMSource, VNode } from '@cycle/dom'
+import { StateSource, Reducer } from '../../node_modules/cycle-onionify';
+import {ListItem} from './app'
+
+export interface State extends ListItem {}
+
+export interface Sources {
+	DOM: DOMSource,
+	onion: StateSource<State>
+}
+
+export interface Sinks {
+	DOM: Stream<VNode>,
+	onion: Stream<Reducer<State>>,
+}
 
 function Child(sources): any {
 	const state$ = sources.onion.state$

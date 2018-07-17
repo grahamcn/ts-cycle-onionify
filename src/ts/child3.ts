@@ -1,6 +1,21 @@
-import { div, p } from '@cycle/dom'
+import { div, p, VNode } from '@cycle/dom'
+import { StateSource } from '../../node_modules/cycle-onionify'
+import { Stream } from '../../node_modules/xstream'
 
-function Child3(sources): any {
+export interface State {
+	itemCount: number,
+	averageCount: number,
+}
+
+export interface Sources {
+	onion: StateSource<State>
+}
+
+export interface Sinks {
+	DOM: Stream<VNode>
+}
+
+function Child3(sources: Sources): Sinks {
 	const state$ = sources.onion.state$
 
 	const vdom$ =
