@@ -124,8 +124,7 @@ function main(sources: Sources): Sinks {
 			div([
 				parentDOM,
 				child2DOM,
-				fooDOM,
-				barDOM,
+				ul([fooDOM, barDOM]),
 				ul([...childDOM]), // Array<VNode>,
 			])
 		)
