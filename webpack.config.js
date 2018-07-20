@@ -29,7 +29,14 @@ module.exports = {
     path: paths.DIST,
     filename: 'app.bundle.js',
 	},
-	devtool: 'inline-source-map', // on, irrespective of node env at present.
+  devtool: 'inline-source-map', // on, irrespective of node env at present.
+  devServer: {
+    contentBase: './dist',
+		hot: true,
+		port: 8182,
+		host: '0.0.0.0',
+    historyApiFallback: true,
+  },
   plugins: [
     new HtmlWebpackPlugin({
       template: path.join(paths.SRC, 'index.html'),

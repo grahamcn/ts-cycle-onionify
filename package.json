@@ -5,7 +5,7 @@
     "build": "webpack",
     "prod": "webpack-dev-server",
     "tslint": "tslint -c ./tslint.json './src/**/*.ts'",
-    "dev": "NODE_ENV=\"development\" webpack-dev-server"
+    "dev": "NODE_ENV=\"development\" webpack-dev-server --port=4040"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
